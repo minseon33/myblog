@@ -2,6 +2,7 @@ package com.example.dailyblog.entity;
 
 import com.example.dailyblog.dto.PostRequestDto;
 
+import com.example.dailyblog.dto.PostResponseDto;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,4 +38,15 @@ public class Posts extends Timestamped{
     }
 
 
+    public void update(PostResponseDto responseDto) {
+        this.postTitle = responseDto.getPostTitle();
+        this.postContents = responseDto.getPostContents();
+        this.clientName = responseDto.getClientName();
+        this.clientPassword = responseDto.getClientPassword();
+        this.postNum = responseDto.getPostNum();
+    }
+
+    public void checkId(){
+
+    }
 }

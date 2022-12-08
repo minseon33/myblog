@@ -28,6 +28,12 @@ public class DailyblogService {
     }
 
     public PostResponseDto update(Long id, PostResponseDto responseDto) {
-        
+        //아이디 있는지 확인 해,
+        //비밀번호 맞는지 확인 해.
+        Posts posts = postsRepository.findById(id).orElseThrow(
+                ()-> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+        );
+        posts.update(responseDto);
+        return new PostResponseDto(posts);
     }
 }

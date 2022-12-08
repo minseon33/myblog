@@ -1,5 +1,6 @@
 package com.example.dailyblog.service;
 
+import com.example.dailyblog.dto.PostDeleteDto;
 import com.example.dailyblog.dto.PostRequestDto;
 import com.example.dailyblog.dto.PostResponseDto;
 import com.example.dailyblog.entity.Posts;
@@ -27,13 +28,29 @@ public class DailyblogService {
         return postsRepository.findAllByOrderByModifiedAtDesc();
     }
 
-    public PostResponseDto update(Long id, PostResponseDto responseDto) {
+    public PostResponseDto showOnePost(Long id){
+        Posts posts = postsRepository.findById(id).orElseThrow(
+                ()-> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+        );
+        return new PostResponseDto(posts);
+    }
+
+    public PostResponseDto update(Long id, PostRequestDto requestDto) {
         //아이디 있는지 확인 해,
         //비밀번호 맞는지 확인 해.
         Posts posts = postsRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
-        posts.update(responseDto);
+        posts.checkPassword(requestDto.getClientPassword());
+        posts.update(requestDto);
         return new PostResponseDto(posts);
+    }
+
+    public void delete(Long id, PostDeleteDto postDeleteDto) {
+        Posts posts = postsRepository.findById(id).orElseThrow(
+                ()-> new IllegalArgumentException("아이디가 존재하지 않습니다.")
+        );
+        posts.checkPassword(postDeleteDto.getClientPassword());
+        postsRepository.delete(posts);
     }
 }

@@ -38,15 +38,13 @@ public class Posts extends Timestamped{
     }
 
 
-    public void update(PostResponseDto responseDto) {
-        this.postTitle = responseDto.getPostTitle();
-        this.postContents = responseDto.getPostContents();
-        this.clientName = responseDto.getClientName();
-        this.clientPassword = responseDto.getClientPassword();
-        this.postNum = responseDto.getPostNum();
+    public void update(PostRequestDto requestDto) {
+        this.postTitle = requestDto.getPostTitle();
+        this.postContents = requestDto.getPostContents();
+        this.clientName = requestDto.getClientName();
     }
 
-    public void checkId(){
-
+    public void checkPassword(String password){
+        if(!this.clientPassword.equals(password)) throw new IllegalArgumentException("비밀번호가 불일치합니다.");
     }
 }

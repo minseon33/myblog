@@ -1,6 +1,7 @@
 package com.example.dailyblog.entity;
 
 import com.example.dailyblog.dto.PostRequestDto;
+
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Entity
 @NoArgsConstructor
-public class Post extends Timestamped{
+public class Posts extends Timestamped{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long postNum;
@@ -21,16 +22,18 @@ public class Post extends Timestamped{
     @Column(nullable = false)
     private String postContents;
 
-    @NotNull
+    @Column(nullable = false)
     private String clientName;
 
-    @NotNull
+    @Column(nullable = false)
     private String clientPassword;
 
 
-    public Post(PostRequestDto requestDto){
+    public Posts(PostRequestDto requestDto){
         this.postTitle = requestDto.getPostTitle();
         this.postContents = requestDto.getPostContents();
+        this.clientName = requestDto.getClientName();
+        this.clientPassword = requestDto.getClientPassword();
     }
 
 

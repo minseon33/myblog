@@ -35,6 +35,7 @@ public class DailyblogService {
         return new PostResponseDto(posts);
     }
 
+    @Transactional
     public PostResponseDto update(Long id, PostRequestDto requestDto) {
         //아이디 있는지 확인 해,
         //비밀번호 맞는지 확인 해.
@@ -43,6 +44,7 @@ public class DailyblogService {
         );
         posts.checkPassword(requestDto.getClientPassword());
         posts.update(requestDto);
+        postsRepository.save(posts);
         return new PostResponseDto(posts);
     }
 

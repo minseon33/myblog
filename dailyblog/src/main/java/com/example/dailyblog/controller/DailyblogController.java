@@ -3,7 +3,7 @@ package com.example.dailyblog.controller;
 import com.example.dailyblog.dto.PostDeleteDto;
 import com.example.dailyblog.dto.PostRequestDto;
 import com.example.dailyblog.dto.PostResponseDto;
-import com.example.dailyblog.entity.Posts;
+import com.example.dailyblog.entity.Post;
 import com.example.dailyblog.service.DailyblogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -20,12 +20,12 @@ public class DailyblogController {
     }
 
     @PostMapping("/posts/dailypost")
-    public Posts creatPost(@RequestBody PostRequestDto postRequestDto){
+    public Post creatPost(@RequestBody PostRequestDto postRequestDto){
         return dailyblogService.createBulletin(postRequestDto);
     }
 
     @GetMapping("/posts/dailypost")
-    public List<Posts> getPosts(){
+    public List<Post> getPosts(){
         return dailyblogService.getPosts();
     }
 

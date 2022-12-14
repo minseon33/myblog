@@ -1,7 +1,6 @@
 package com.example.dailyblog.dto;
 
-import com.example.dailyblog.entity.Posts;
-import com.example.dailyblog.entity.Timestamped;
+import com.example.dailyblog.entity.Post;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -12,15 +11,15 @@ public class PostResponseDto {
     private String postTitle;
     private String postContents;
     private String clientName;
-    private String clientPassword;
+
     private LocalDateTime createdAt;
 
-    public PostResponseDto(Posts posts) {
-        this.postNum = posts.getPostNum();
-        this.postTitle = posts.getPostTitle();
-        this.postContents = posts.getPostContents();
-        this.clientName = posts.getClientName();
-        this.clientPassword = posts.getClientPassword();
-        this.createdAt = posts.getCreatedAt();
+    public PostResponseDto(Post post) {
+        this.postNum = post.getPostNum();
+        this.postTitle = post.getPostTitle();
+        this.postContents = post.getPostContents();
+        this.clientName = post.getClientName();
+        this.createdAt = post.getCreatedAt();
     }
 }
+

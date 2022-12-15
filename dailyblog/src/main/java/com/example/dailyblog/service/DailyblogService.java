@@ -41,7 +41,7 @@ public class DailyblogService {
         //아이디 있는지 확인 해,
         //비밀번호 맞는지 확인 해.
         Post post = postsRepository.findById(id).orElseThrow(PostNotExistException::new);
-        post.checkPassword(requestDto.getClientPassword());
+        post.checkPassword(requestDto.getUserPassword());
         post.update(requestDto);
         postsRepository.save(post);
         return new PostResponseDto(post);
@@ -49,7 +49,7 @@ public class DailyblogService {
 
     public void delete(Long id, PostDeleteDto postDeleteDto) {
         Post post = postsRepository.findById(id).orElseThrow(PostNotExistException::new);
-        post.checkPassword(postDeleteDto.getClientPassword());
+        post.checkPassword(postDeleteDto.getUserPassword());
         postsRepository.delete(post);
     }
 }

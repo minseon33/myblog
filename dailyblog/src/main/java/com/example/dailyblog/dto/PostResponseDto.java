@@ -10,7 +10,7 @@ public class PostResponseDto {
     private Long postNum;
     private String postTitle;
     private String postContents;
-    private String clientName;
+    private String userName;
 
     private LocalDateTime createdAt;
 
@@ -18,7 +18,7 @@ public class PostResponseDto {
         this.postNum = post.getPostNum();
         this.postTitle = post.getPostTitle();
         this.postContents = post.getPostContents();
-        this.clientName = post.getClientName();
+        this.userName = post.getUserName();
         this.createdAt = post.getCreatedAt();
     }
 }

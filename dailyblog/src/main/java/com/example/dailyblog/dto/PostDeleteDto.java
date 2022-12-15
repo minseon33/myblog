@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public class PostDeleteDto {
-    private String clientPassword;
+    private String userPassword;
 }

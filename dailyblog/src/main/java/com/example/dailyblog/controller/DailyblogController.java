@@ -15,30 +15,36 @@ import java.util.List;
 public class DailyblogController {
     private final DailyblogService dailyblogService;
 
+    //홈화면
     @GetMapping("/")
     public ModelAndView home() {return new ModelAndView("index");
     }
 
+    //게시물 등록
     @PostMapping("/posts/dailypost")
     public Post creatPost(@RequestBody PostRequestDto postRequestDto){
         return dailyblogService.createBulletin(postRequestDto);
     }
 
+    //전체 게시물 보기
     @GetMapping("/posts/dailypost")
     public List<Post> getPosts(){
         return dailyblogService.getPosts();
     }
 
+    //게시물 수정
     @PutMapping("/posts/dailypost/{id}")
     public PostResponseDto updatePost(@PathVariable Long id , @RequestBody PostRequestDto requestDto){
         return dailyblogService.update(id, requestDto);
     }
 
+    //게시물 삭제
     @DeleteMapping("/posts/dailypost/{id}")
     public void deletePost(@PathVariable Long id ,@RequestBody PostDeleteDto postDeleteDto){
         dailyblogService.delete(id,postDeleteDto);
     }
 
+    //선택 게시물 보기
     @GetMapping("/posts/dailypost/{id}")
     public PostResponseDto showPosts(@PathVariable Long id){
         return dailyblogService.showOnePost(id);

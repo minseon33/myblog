@@ -26,7 +26,7 @@ public class UserService {
     public SignupResponseDto signup(SignupRequestDto signupRequestDto) {
 
         // 회원 중복 확인
-        Optional<User> findUserId = userRepository.findByEmail(signupRequestDto.getEmail());
+        Optional<User> findUserId = userRepository.findByUsername(signupRequestDto.getUsername());
         if(findUserId.isPresent()){
             throw new UserIdNotExistException();
         }
@@ -37,13 +37,14 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
-        String email = loginRequestDto.getEmail();
+        String userName = loginRequestDto.getUsername();
         String password = loginRequestDto.getPassword();
 
         // 사용자 확인
-        User user = userRepository.findByEmail(email).orElseThrow(
+        User user = userRepository.findByUsername(userName).orElseThrow(
                 () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
         );
+
         // 비밀번호 확인
         user.checkPassword(loginRequestDto);
 

@@ -20,6 +20,7 @@ public class DailyblogService {
     @Transactional
     public Post createBulletin(PostRequestDto postRequestDto) {
         Post post = new Post(postRequestDto);
+
         postsRepository.save(post);
         return post;
     }

@@ -1,6 +1,7 @@
 package com.example.dailyblog.entity;
 
 import com.example.dailyblog.dto.LoginRequestDto;
+import com.example.dailyblog.dto.PostRequestDto;
 import com.example.dailyblog.dto.SignupRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,7 +38,8 @@ public class User {
         if(!this.password.equals(loginRequestDto.getPassword())) throw new IllegalArgumentException("비밀번호가 불일치합니다.");
     }
 
-    public void checkEmail(LoginRequestDto loginRequestDto){
-        if(!this.email.equals(loginRequestDto.getEmail())) throw new IllegalArgumentException("아이디가 불일치합니다.");
+    public void checkUserName(PostRequestDto postRequestDto){
+        if(!this.username.equals(postRequestDto.getUserName())) throw new IllegalArgumentException("ID가 불일치합니다.");
     }
+
 }

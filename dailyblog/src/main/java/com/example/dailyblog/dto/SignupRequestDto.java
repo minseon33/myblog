@@ -16,8 +16,6 @@ public class SignupRequestDto {
     // 비밀번호
     private String password;
 
-    private boolean admin;
-
     private String adminToken = "";
 
 

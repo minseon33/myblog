@@ -1,9 +1,10 @@
 package com.example.dailyblog.service;
 
 import com.example.dailyblog.dto.LoginRequestDto;
+import com.example.dailyblog.dto.LoginResponseDto;
 import com.example.dailyblog.dto.SignupRequestDto;
+import com.example.dailyblog.dto.SignupResponseDto;
 import com.example.dailyblog.entity.User;
-import com.example.dailyblog.entity.UserRoleEnum;
 import com.example.dailyblog.exception.UserIdNotExistException;
 import com.example.dailyblog.jwt.JwtUtil;
 import com.example.dailyblog.repository.UserRepository;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,48 +20,35 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepository;
-    private final JwtUtil jwtUtil; //토큰 뭐지..ㅠ
-    private static final String ADMIN_TOKEN = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
+    private final JwtUtil jwtUtil;
 
     @Transactional
-    public void signup(SignupRequestDto signupRequestDto) {
-        String username = signupRequestDto.getUsername();
-        String password = signupRequestDto.getPassword();
-        String email = signupRequestDto.getEmail();
+    public SignupResponseDto signup(SignupRequestDto signupRequestDto) {
 
         // 회원 중복 확인
-        Optional<User> findUserId = userRepository.findByEmail(email);
+        Optional<User> findUserId = userRepository.findByEmail(signupRequestDto.getEmail());
         if(findUserId.isPresent()){
             throw new UserIdNotExistException();
         }
-
-        UserRoleEnum role = UserRoleEnum.USER;
-        if (signupRequestDto.isAdmin()) {
-            if (!signupRequestDto.getAdminToken().equals(ADMIN_TOKEN)) {
-                throw new IllegalArgumentException("관리자 암호가 틀려 등록이 불가능합니다.");
-            }
-            role = UserRoleEnum.ADMIN;
-        }
-
-        User user = new User(username,email,password,role);
+        User user = new User(signupRequestDto);
         userRepository.save(user);
+        return new SignupResponseDto("회원가입 완료",200);
     }
 
     @Transactional(readOnly = true)
-    public void login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
+    public LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
         String email = loginRequestDto.getEmail();
         String password = loginRequestDto.getPassword();
 
         // 사용자 확인
-        User user = userRepository.findByUsername(email).orElseThrow(
+        User user = userRepository.findByEmail(email).orElseThrow(
                 () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
         );
         // 비밀번호 확인
-        if(!user.getPassword().equals(password)){
-            throw  new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
-        }
+        user.checkPassword(loginRequestDto);
 
-        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUsername(), user.getRole()));
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getEmail()));
+        return new LoginResponseDto("로그인 완료",200);
     }
 
 }

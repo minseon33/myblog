@@ -1,15 +1,15 @@
 package com.example.dailyblog.dto;
 
-import com.example.dailyblog.entity.Post;
 import lombok.Getter;
 
 @Getter
-public class SignupResponseDto {
+public class LoginResponseDto {
     private String msg;
     private int statusCode;
 
-    public SignupResponseDto(String msg , int statusCode) {
+    public LoginResponseDto(String msg , int statusCode) {
         this.msg = msg;
         this.statusCode = statusCode;
     }
+
 }

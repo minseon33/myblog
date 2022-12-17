@@ -29,7 +29,7 @@ public class User {
 
 
     public User(SignupRequestDto signupRequestDto) {
-        this.username = signupRequestDto.getUsername();
+        this.username = signupRequestDto.getUserName();
         this.password = signupRequestDto.getPassword();
         this.email = signupRequestDto.getEmail();
     }
@@ -41,5 +41,6 @@ public class User {
     public void checkUserName(PostRequestDto postRequestDto){
         if(!this.username.equals(postRequestDto.getUserName())) throw new IllegalArgumentException("ID가 불일치합니다.");
     }
+
 
 }

@@ -7,7 +7,7 @@ public class PostRequestDto {
     private String postTitle;
     private String postContents;
     private String userName;
-    private String userPassword;
+    private String password;
 
 
 //    public PostRequestDto(Posts posts) {

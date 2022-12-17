@@ -8,6 +8,9 @@ import com.example.dailyblog.service.DailyblogService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -22,20 +25,18 @@ public class DailyblogController {
 
     //게시물 등록
     @PostMapping("/posts/dailypost")
-    public Post creatPost(@RequestBody PostRequestDto postRequestDto){
-        return dailyblogService.createBulletin(postRequestDto);
+    public Post creatPost(@RequestBody PostRequestDto postRequestDto , HttpServletRequest httpServletRequest){
+        return dailyblogService.createBulletin(postRequestDto,httpServletRequest);
     }
 
     //전체 게시물 보기
     @GetMapping("/posts/dailypost")
-    public List<Post> getPosts(){
-        return dailyblogService.getPosts();
-    }
+    public List<Post> getPosts(){return dailyblogService.getPosts();}
 
     //게시물 수정
     @PutMapping("/posts/dailypost/{id}")
-    public PostResponseDto updatePost(@PathVariable Long id , @RequestBody PostRequestDto requestDto){
-        return dailyblogService.update(id, requestDto);
+    public PostResponseDto updatePost(@PathVariable Long id , @RequestBody PostRequestDto requestDto,HttpServletRequest httpServletRequest){
+        return dailyblogService.update(id, requestDto,httpServletRequest);
     }
 
     //게시물 삭제

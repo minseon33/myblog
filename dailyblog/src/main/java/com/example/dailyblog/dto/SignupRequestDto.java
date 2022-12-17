@@ -2,12 +2,10 @@ package com.example.dailyblog.dto;
 
 import lombok.Getter;
 
-import javax.persistence.Entity;
-
 @Getter
 public class SignupRequestDto {
     // 실명
-    private String username;
+    private String userName;
 
 
     //회원 아이디(이메일)

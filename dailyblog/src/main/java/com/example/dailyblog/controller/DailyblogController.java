@@ -41,8 +41,8 @@ public class DailyblogController {
 
     //게시물 삭제
     @DeleteMapping("/posts/dailypost/{id}")
-    public void deletePost(@PathVariable Long id ,@RequestBody PostDeleteDto postDeleteDto){
-        dailyblogService.delete(id,postDeleteDto);
+    public void deletePost(@PathVariable Long id ,@RequestBody PostRequestDto postRequestDto , HttpServletRequest httpServletRequest){
+        dailyblogService.delete(id, postRequestDto , httpServletRequest);
     }
 
     //선택 게시물 보기

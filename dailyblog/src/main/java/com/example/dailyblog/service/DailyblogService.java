@@ -33,8 +33,6 @@ public class DailyblogService {
         if(!jwtUtil.validateToken(token)) throw new TokenNotExistException();
         postsRepository.save(post);
 
-        // Q.왜 2번부터 등록이 되는거지...?
-
         //토큰 검증해서 true면 게시물 작성하기
         return post;
     }
@@ -44,6 +42,7 @@ public class DailyblogService {
         return postsRepository.findAllByOrderByModifiedAtDesc();
     }
 
+    @Transactional(readOnly = true)
     public PostResponseDto showOnePost(Long id){
         Post post = postsRepository.findById(id).orElseThrow(
                 ()-> new IllegalArgumentException("아이디가 존재하지 않습니다.")
@@ -70,7 +69,7 @@ public class DailyblogService {
         postsRepository.save(post);
         return new PostResponseDto(post);
     }
-
+    @Transactional(rollbackFor = Exception.class)
     public void delete(Long id, PostRequestDto requestDto , HttpServletRequest httpServletRequest) {
         String token = jwtUtil.resolveToken(httpServletRequest);
         Claims claims;

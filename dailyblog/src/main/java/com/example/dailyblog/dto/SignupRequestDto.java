@@ -11,7 +11,7 @@ import javax.validation.constraints.Size;
 public class SignupRequestDto {
     // 실명
     @Size(min=4,max=10)
-    @Pattern(regexp = "[a-z0-9]")
+    @Pattern(regexp ="^[a-z0-9]*$")
     private String userName;
 
 
@@ -20,7 +20,7 @@ public class SignupRequestDto {
 
     // 비밀번호
     @Size(min=8,max=15)
-    @Pattern(regexp = "[a-zA-Z0-9]")
+    @Pattern(regexp ="^[a-zA-Z0-9]*$")
     private String password;
 
     private String adminToken = "";

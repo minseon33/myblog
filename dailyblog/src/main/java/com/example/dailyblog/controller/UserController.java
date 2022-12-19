@@ -4,6 +4,7 @@ import com.example.dailyblog.dto.LoginRequestDto;
 import com.example.dailyblog.dto.LoginResponseDto;
 import com.example.dailyblog.dto.SignupRequestDto;
 import com.example.dailyblog.dto.SignupResponseDto;
+import com.example.dailyblog.jwt.JwtUtil;
 import com.example.dailyblog.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -40,8 +41,12 @@ public class UserController {
 
     //회원 로그인하기
     @PostMapping("/login")
-    public LoginResponseDto login(@RequestBody LoginRequestDto loginRequestDto , HttpServletResponse response) {
-        return userService.login(loginRequestDto,response);
+    public String login(@RequestBody LoginRequestDto loginRequestDto , HttpServletResponse response) {
+        String generatedToken = userService.login(loginRequestDto);
+        response.addHeader(JwtUtil.AUTHORIZATION_HEADER,generatedToken);
+
+        return "로그인 완료";
+
     }
 
 

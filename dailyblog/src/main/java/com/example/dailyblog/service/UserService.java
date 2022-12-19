@@ -36,7 +36,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
+    public String login(LoginRequestDto loginRequestDto) {
         String userName = loginRequestDto.getUserName();
 
         // 사용자 확인
@@ -47,8 +47,10 @@ public class UserService {
         // 비밀번호 확인
         user.checkPassword(loginRequestDto);
 
-        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, jwtUtil.createToken(user.getUsername()));
-        return new LoginResponseDto("로그인 완료",200);
+        String generatedToken = jwtUtil.createToken(user.getUsername());
+
+
+        return generatedToken;
     }
 
 }

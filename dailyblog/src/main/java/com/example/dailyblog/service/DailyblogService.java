@@ -54,6 +54,7 @@ public class DailyblogService {
     public PostResponseDto update(Long id, PostRequestDto requestDto,HttpServletRequest httpServletRequest) {
         String token = jwtUtil.resolveToken(httpServletRequest); // 토큰 가져오기
         Claims claims;
+        //토큰 검증
         if(!jwtUtil.validateToken(token)){
             throw new TokenNotExistException();
         }

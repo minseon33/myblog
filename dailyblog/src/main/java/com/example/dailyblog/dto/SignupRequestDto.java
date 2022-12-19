@@ -21,10 +21,14 @@ public class SignupRequestDto {
 
     // 비밀번호
     @Size(min=8,max=15)
-    @Pattern(regexp ="^(?=.*[a-zA-Z])((?=.*\\d)|(?=.*\\W))(?=.*[!@#$%^*+=-]).+$")
+    @Pattern(regexp = "^(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9ㄱ-힣]).+$")
     private String password;
 
-    private String adminToken = "";
+    //관리자 권한
+    private boolean admin = false;
+
+    //관리자 패스워드
+    private String adminPassword ="";
 
 
 }

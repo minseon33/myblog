@@ -5,6 +5,7 @@ import com.example.dailyblog.dto.LoginResponseDto;
 import com.example.dailyblog.dto.SignupRequestDto;
 import com.example.dailyblog.dto.SignupResponseDto;
 import com.example.dailyblog.entity.User;
+import com.example.dailyblog.entity.UserRoleEnum;
 import com.example.dailyblog.exception.UserIdNotExistException;
 import com.example.dailyblog.jwt.JwtUtil;
 import com.example.dailyblog.repository.UserRepository;
@@ -21,16 +22,27 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
+    private static final String ADMIN_PASSWORD = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
 
     @Transactional
     public SignupResponseDto signup(SignupRequestDto signupRequestDto) {
+
+        //사용자 ROLE 확인
+
+        UserRoleEnum role = UserRoleEnum.USER;
+        if (signupRequestDto.isAdmin()) {
+            if (!signupRequestDto.getAdminPassword().equals(ADMIN_PASSWORD)) {
+                throw new IllegalArgumentException("관리자 암호가 틀렸습니다. 불가능합니다.");
+            }
+            role = UserRoleEnum.ADMIN;
+        }
 
         // 회원 중복 확인
         Optional<User> findUserId = userRepository.findByUsername(signupRequestDto.getUserName());
         if(findUserId.isPresent()){
             throw new UserIdNotExistException();
         }
-        User user = new User(signupRequestDto);
+        User user = new User(signupRequestDto,role);
         userRepository.save(user);
         return new SignupResponseDto("회원가입 완료",200);
     }
@@ -43,12 +55,9 @@ public class UserService {
         User user = userRepository.findByUsername(userName).orElseThrow(
                 () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
         );
-
         // 비밀번호 확인
         user.checkPassword(loginRequestDto);
-
-        String generatedToken = jwtUtil.createToken(user.getUsername());
-
+        String generatedToken = jwtUtil.createToken(user.getUsername(),user.getRole());
 
         return generatedToken;
     }

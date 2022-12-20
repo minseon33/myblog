@@ -23,10 +23,12 @@ public class DailyblogService {
     private final PostsRepository postsRepository;
     private final JwtUtil jwtUtil;
 
+    private final User user;
+
 
     @Transactional
-    public Post creatPost(PostRequestDto postRequestDto, User user) {
-        Post post = new Post(postRequestDto, user.getUsername());
+    public Post creatPost(PostRequestDto postRequestDto, String userName) {
+        Post post = new Post(postRequestDto, userName);
         //게시물 작성하기
         postsRepository.save(post);
         return post;
@@ -47,32 +49,42 @@ public class DailyblogService {
     }
 
     @Transactional
-    public PostResponseDto update(Long id, PostRequestDto requestDto, User user) {
-        //레파지톨에서 post 꺼내오기.
+    public PostResponseDto adminUpdate(Long id, PostRequestDto requestDto) {
+        //레파지토리에서 post 꺼내오기.
         Post post = postsRepository.findById(id).orElseThrow(PostNotExistException::new);
-        if(user.getRole().equals("ADMIN")){
-            post.update(requestDto);
-            postsRepository.save(post);
-        }else {
-            if (!user.getUsername().equals(post.getUserName())) {
-                throw new UserNameNotException();
-            }
-            post.update(requestDto);
-            postsRepository.save(post);
-        }
+        //게시글 수정하기
+        post.update(requestDto);
+        postsRepository.save(post);
         return new PostResponseDto(post);
     }
 
-    @Transactional(rollbackFor = Exception.class)
-    public void delete(Long id, PostRequestDto requestDto, HttpServletRequest httpServletRequest) {
-        String token = jwtUtil.resolveToken(httpServletRequest);
-        Claims claims;
-        if (!jwtUtil.validateToken(token)) {
-            throw new TokenNotExistException();
-        }
-        claims = jwtUtil.getUserInfoFromToken(token);
+    @Transactional
+    public PostResponseDto userUpdate(Long id, PostRequestDto requestDto, String userName) {
+        //레파지토리에서 post 꺼내오기.
         Post post = postsRepository.findById(id).orElseThrow(PostNotExistException::new);
-        if (!claims.getSubject().equals(post.getUserName())) {
+        //아이디 체크하기
+        if (!post.getUserName().equals(userName)) {
+            throw new UserNameNotException();
+        }
+        //게시글 수정하기
+        post.update(requestDto);
+        postsRepository.save(post);
+
+        return new PostResponseDto(post);
+    }
+
+
+    @Transactional
+    public void adminDelete(Long id) {
+        Post post = postsRepository.findById(id).orElseThrow(PostNotExistException::new);
+        postsRepository.delete(post);
+    }
+
+
+    @Transactional(rollbackFor = Exception.class)
+    public void userDelete(Long id,String userName) {
+        Post post = postsRepository.findById(id).orElseThrow(PostNotExistException::new);
+        if (!post.getUserName().equals(userName)) {
             throw new UserNameNotException();
         }
         postsRepository.delete(post);

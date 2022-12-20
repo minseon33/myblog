@@ -24,9 +24,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false)
     private String email;
-    @Column(nullable = false, unique = false)
+    @Column(nullable = false)
     private UserRoleEnum role;
 
 

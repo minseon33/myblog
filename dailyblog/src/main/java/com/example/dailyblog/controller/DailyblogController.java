@@ -7,6 +7,7 @@ import com.example.dailyblog.entity.User;
 import com.example.dailyblog.entity.UserRoleEnum;
 import com.example.dailyblog.exception.TokenNotExistException;
 import com.example.dailyblog.jwt.JwtUtil;
+import com.example.dailyblog.jwt.Token;
 import com.example.dailyblog.repository.UserRepository;
 import com.example.dailyblog.service.DailyblogService;
 import io.jsonwebtoken.Claims;
@@ -23,6 +24,7 @@ public class DailyblogController {
     private final DailyblogService dailyblogService;
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
+    private final Token token;
 
     //홈화면
     @GetMapping("/")
@@ -33,25 +35,9 @@ public class DailyblogController {
     //게시물 등록
     @PostMapping("/posts/dailypost")
     public Post creatPost(@RequestBody PostRequestDto postRequestDto, HttpServletRequest httpServletRequest) {
-        Claims claims;
-
-        //토큰 있는지 없는지 확인,
-        String token = jwtUtil.resolveToken(httpServletRequest);
-        //토큰속에서 권한 꺼내기
-
-        //토큰 검증
-        if (!jwtUtil.validateToken(token)) {
-            throw new TokenNotExistException();
-        } else {
-            claims = jwtUtil.getUserInfoFromToken(token);
-        }
-
-        User user = userRepository.findByUsername(claims.getSubject()).orElseThrow(
-                () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
-        );
-
-        //토큰에서 사용자 정보 가져오기 + 토큰에서 권한정보 뽑아내기
-        //토큰이랑 권한이랑 같이 서비스로 값 넘겨줌
+        //토큰으로 사용자 권한 체크해서 User에 담아줌
+        User user = token.checkUserRoleToken(httpServletRequest);
+        //권한이랑 같이 서비스로 값 넘겨줌
         return dailyblogService.creatPost(postRequestDto, user);
     }
 
@@ -64,13 +50,14 @@ public class DailyblogController {
     //게시물 수정
     @PutMapping("/posts/dailypost/{id}")
     public PostResponseDto updatePost(@PathVariable Long id, @RequestBody PostRequestDto requestDto, HttpServletRequest httpServletRequest) {
-        String token = jwtUtil.resolveToken(httpServletRequest);
-        return dailyblogService.update(id, requestDto, token);
+        User user = token.checkUserRoleToken(httpServletRequest);
+        return dailyblogService.update(id, requestDto, user);
     }
 
     //게시물 삭제
     @DeleteMapping("/posts/dailypost/{id}")
     public void deletePost(@PathVariable Long id, @RequestBody PostRequestDto postRequestDto, HttpServletRequest httpServletRequest) {
+        User user = token.checkUserRoleToken(httpServletRequest);
         dailyblogService.delete(id, postRequestDto, httpServletRequest);
     }
 

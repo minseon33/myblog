@@ -26,7 +26,7 @@ public class DailyblogService {
 
     @Transactional
     public Post creatPost(PostRequestDto postRequestDto, User user) {
-        Post post = new Post(postRequestDto , user.getUsername());
+        Post post = new Post(postRequestDto, user.getUsername());
         //게시물 작성하기
         postsRepository.save(post);
         return post;
@@ -37,7 +37,7 @@ public class DailyblogService {
         return postsRepository.findAllByOrderByModifiedAtDesc();
     }
 
-//    하나의 선택글만 보기
+    //    하나의 선택글만 보기
     @Transactional(readOnly = true)
     public PostResponseDto showOnePost(Long id) {
         Post post = postsRepository.findById(id).orElseThrow(
@@ -47,21 +47,19 @@ public class DailyblogService {
     }
 
     @Transactional
-    public PostResponseDto update(Long id, PostRequestDto requestDto, String token) {
-        Claims claims;
-        //토큰 검증
-        if (!jwtUtil.validateToken(token)) {
-            throw new TokenNotExistException();
-        }
-
-        claims = jwtUtil.getUserInfoFromToken(token);
+    public PostResponseDto update(Long id, PostRequestDto requestDto, User user) {
+        //레파지톨에서 post 꺼내오기.
         Post post = postsRepository.findById(id).orElseThrow(PostNotExistException::new);
-
-        if (!claims.getSubject().equals(post.getUserName())) {
-            throw new UserNameNotException();
+        if(user.getRole().equals("ADMIN")){
+            post.update(requestDto);
+            postsRepository.save(post);
+        }else {
+            if (!user.getUsername().equals(post.getUserName())) {
+                throw new UserNameNotException();
+            }
+            post.update(requestDto);
+            postsRepository.save(post);
         }
-        post.update(requestDto);
-        postsRepository.save(post);
         return new PostResponseDto(post);
     }
 

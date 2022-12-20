@@ -24,9 +24,9 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = false)
     private String email;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = false)
     private UserRoleEnum role;
 
 
@@ -41,9 +41,6 @@ public class User {
         if(!this.password.equals(loginRequestDto.getPassword())) throw new IllegalArgumentException("비밀번호가 불일치합니다.");
     }
 
-    public void checkUserName(PostRequestDto postRequestDto){
-        if(!this.username.equals(postRequestDto.getUserName())) throw new IllegalArgumentException("ID가 불일치합니다.");
-    }
 
 
 }

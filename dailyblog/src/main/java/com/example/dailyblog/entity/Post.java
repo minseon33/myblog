@@ -24,27 +24,23 @@ public class Post extends Timestamped{
     @Column(nullable = false)
     private String userName;
 
-    @Column(nullable = false)
-    private String userPassword;
 
 
-    public Post(PostRequestDto requestDto){
+    public Post(PostRequestDto requestDto,String userName){
         this.postTitle = requestDto.getPostTitle();
         this.postContents = requestDto.getPostContents();
-        this.userName = requestDto.getUserName();
-        this.userPassword = requestDto.getPassword();
+        this.userName = userName;
     }
 
 
     public void update(PostRequestDto requestDto) {
         this.postTitle = requestDto.getPostTitle();
         this.postContents = requestDto.getPostContents();
-        this.userName = requestDto.getUserName();
     }
 
-    public void checkPassword(String password){
-        if(!this.userPassword.equals(password)) throw new IllegalArgumentException("비밀번호가 불일치합니다.");
-    }
+//    public void checkPassword(String password){
+//        if(!this.userPassword.equals(password)) throw new IllegalArgumentException("비밀번호가 불일치합니다.");
+//    }
 
 
 }

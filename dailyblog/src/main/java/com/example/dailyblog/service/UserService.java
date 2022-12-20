@@ -22,20 +22,10 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
-    private static final String ADMIN_PASSWORD = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
+
 
     @Transactional
-    public SignupResponseDto signup(SignupRequestDto signupRequestDto) {
-
-        //사용자 ROLE 확인
-
-        UserRoleEnum role = UserRoleEnum.USER;
-        if (signupRequestDto.isAdmin()) {
-            if (!signupRequestDto.getAdminPassword().equals(ADMIN_PASSWORD)) {
-                throw new IllegalArgumentException("관리자 암호가 틀렸습니다. 불가능합니다.");
-            }
-            role = UserRoleEnum.ADMIN;
-        }
+    public SignupResponseDto signup(SignupRequestDto signupRequestDto,UserRoleEnum role) {
 
         // 회원 중복 확인
         Optional<User> findUserId = userRepository.findByUsername(signupRequestDto.getUserName());

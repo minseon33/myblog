@@ -24,6 +24,7 @@ public class UserController {
 
     private final UserService userService;
     private final UserRepository userRepository;
+    private static final String ADMIN_PASSWORD = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
 
 
     // 회원가입 페이지 보여주기
@@ -41,7 +42,16 @@ public class UserController {
     //회원가입 등록하기
     @PostMapping("/signup")
     public SignupResponseDto signup(@RequestBody @Valid SignupRequestDto signupRequestDto ) {
-        userService.signup(signupRequestDto);
+        //사용자 role 확인
+        UserRoleEnum role = UserRoleEnum.USER;
+        if (signupRequestDto.isAdmin()) {
+            if (!signupRequestDto.getAdminPassword().equals(ADMIN_PASSWORD)) {
+                throw new IllegalArgumentException("관리자 암호가 틀렸습니다. 관리자 가입이 불가능합니다.");
+            }
+            role = UserRoleEnum.ADMIN;
+        }
+
+        userService.signup(signupRequestDto,role);
         return new SignupResponseDto("회원가입 완료",200);
     }
 

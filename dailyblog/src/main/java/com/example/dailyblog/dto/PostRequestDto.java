@@ -6,8 +6,6 @@ import lombok.Getter;
 public class PostRequestDto {
     private String postTitle;
     private String postContents;
-    private String userName;
-    private String password;
 
 
 //    public PostRequestDto(Posts posts) {

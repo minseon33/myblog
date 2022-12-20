@@ -1,6 +1,7 @@
 package com.example.dailyblog.jwt;
 
 
+import ch.qos.logback.core.net.server.Client;
 import com.example.dailyblog.entity.UserRoleEnum;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
@@ -22,7 +23,7 @@ import java.util.Date;
 public class JwtUtil {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
-    public static final String TEMPORARY = "auth";
+    public static final String AUTHORIZATION_KEY = "auth";
     private static final String BEARER_PREFIX = "Bearer ";
     private static final long TOKEN_TIME = 60 * 60 * 1000L;
 
@@ -53,7 +54,7 @@ public class JwtUtil {
         return BEARER_PREFIX +
                 Jwts.builder()
                         .setSubject(username)
-                        .claim(TEMPORARY,20221216)
+                        .claim(AUTHORIZATION_KEY, role)
                         .setExpiration(new Date(date.getTime() + TOKEN_TIME))
                         .setIssuedAt(date)
                         .signWith(key, signatureAlgorithm)
@@ -81,5 +82,11 @@ public class JwtUtil {
     public Claims getUserInfoFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
+
+    //토큰에서 Role 정보 꺼내기
+//    public Claims getUserInformRole(String token){
+//        return Jwts.parserBuilder().setSigningKey(key).build()
+//
+//    }
 
 }

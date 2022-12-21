@@ -2,11 +2,13 @@ package com.example.dailyblog.service;
 
 import com.example.dailyblog.dto.PostRequestDto;
 import com.example.dailyblog.dto.PostResponseDto;
+import com.example.dailyblog.entity.Comment;
 import com.example.dailyblog.entity.Post;
 import com.example.dailyblog.exception.PostNotExistException;
 import com.example.dailyblog.exception.TokenNotExistException;
 import com.example.dailyblog.exception.UserNameNotException;
 import com.example.dailyblog.jwt.JwtUtil;
+import com.example.dailyblog.repository.CommentsRepository;
 import com.example.dailyblog.repository.PostsRepository;
 import io.jsonwebtoken.Claims;
 import com.example.dailyblog.entity.User;
@@ -22,6 +24,8 @@ import java.util.List;
 public class DailyblogService {
     private final PostsRepository postsRepository;
     private final JwtUtil jwtUtil;
+
+    private final CommentsRepository commentsRepository;
 
 //    private final User user;
 
@@ -45,6 +49,8 @@ public class DailyblogService {
         Post post = postsRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
+        List<Comment> commentList = commentsRepository.findByPost(post);
+        post.addComment(commentList.get(0));
         return new PostResponseDto(post);
     }
 

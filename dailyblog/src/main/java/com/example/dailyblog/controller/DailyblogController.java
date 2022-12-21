@@ -117,7 +117,6 @@ public class DailyblogController {
             dailyblogService.userDelete(id, userName);
         }
 
-
     }
 
     //선택 게시물 보기
@@ -125,6 +124,12 @@ public class DailyblogController {
     public PostResponseDto showPosts(@PathVariable Long id) {
         return dailyblogService.showOnePost(id);
     }
+
+
+//    @GetMapping("/posts/dailypost/{id}/comment/{commentid}")
+//    public PostResponseDto showPosts(@PathVariable Long id ,@PathVariable Long commentid) {
+//        return dailyblogService.showOnePost(id);
+//    }
 
 
 }

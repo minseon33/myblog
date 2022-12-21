@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Entity
@@ -24,6 +26,11 @@ public class Post extends Timestamped{
     @Column(nullable = false)
     private String userName;
 
+    @OneToMany
+    List<Comment> commentList = new ArrayList<>();
+
+
+
 
 
     public Post(PostRequestDto requestDto,String userName){
@@ -32,15 +39,19 @@ public class Post extends Timestamped{
         this.userName = userName;
     }
 
+    public void addComment(Comment comment){
+        this.commentList.add(comment);
+        //여기서 루프돌려서 다 들어갈수 있게 해야된다.
+    }
+
 
     public void update(PostRequestDto requestDto) {
         this.postTitle = requestDto.getPostTitle();
         this.postContents = requestDto.getPostContents();
     }
 
-//    public void checkPassword(String password){
-//        if(!this.userPassword.equals(password)) throw new IllegalArgumentException("비밀번호가 불일치합니다.");
-//    }
+
+
 
 
 }

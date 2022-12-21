@@ -5,6 +5,7 @@ import com.example.dailyblog.dto.PostRequestDto;
 import com.example.dailyblog.dto.SignupRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 

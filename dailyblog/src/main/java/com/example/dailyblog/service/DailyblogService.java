@@ -23,7 +23,7 @@ public class DailyblogService {
     private final PostsRepository postsRepository;
     private final JwtUtil jwtUtil;
 
-    private final User user;
+//    private final User user;
 
 
     @Transactional

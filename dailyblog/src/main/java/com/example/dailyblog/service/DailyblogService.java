@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -49,8 +50,6 @@ public class DailyblogService {
         Post post = postsRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
         );
-        List<Comment> commentList = commentsRepository.findByPost(post);
-        post.addComment(commentList.get(0));
         return new PostResponseDto(post);
     }
 

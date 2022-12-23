@@ -13,7 +13,7 @@ import java.util.Optional;
 @NoArgsConstructor
 public class Comment extends Timestamped{
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long commentId;
 
@@ -24,14 +24,15 @@ public class Comment extends Timestamped{
     private String commentWriterName;
 
 
-    @ManyToOne
-    @JoinColumn(name = "post_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_postNum", nullable = false)
     private Post post;
 
-    public Comment(CommentRequestDto commentRequestDto,Post post){
-        this.commentWriterName = commentRequestDto.getCommentWriterName();
+    public Comment(String userName,CommentRequestDto commentRequestDto,Post post){
+        this.commentWriterName = userName;
         this.commentContents = commentRequestDto.getContents();
         this.post = post;
+        //정적 팩토리 메서드..?
     }
 
 

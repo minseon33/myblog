@@ -41,12 +41,11 @@ public class CommentController {
         //토큰 검증
         tokenAuthenticationService.tokenVerification(token);
 
-        //게시물 확인하기
-        Post post = postsRepository.findById(postNum).orElseThrow(
-                ()->new IllegalArgumentException("등록된 게시글이 없습니다.")
-        );
+        //토큰에서 유저네임(=작성자) 뽑아서 넘겨줌
+        String userName = tokenAuthenticationService.takeUserName(token);
+
         //서비스로 Dto 넘겨줌
-        return commentService.createComment(commentRequestDto,post);
+        return commentService.createComment(commentRequestDto,userName,postNum);
     }
 
 

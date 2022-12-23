@@ -17,7 +17,7 @@ public class PostResponseDto {
 
     private LocalDateTime createdAt;
 
-    private List<Comment> commentList;
+    private List<CommentResponseDto> commentList;
 
     public PostResponseDto(Post post) {
         this.postNum = post.getPostNum();
@@ -25,7 +25,11 @@ public class PostResponseDto {
         this.postContents = post.getPostContents();
         this.userName = post.getUserName();
         this.createdAt = post.getCreatedAt();
-        this.commentList = post.getCommentList();
+//        for(Comment comment : post.getCommentList()){
+//            commentList.add(new CommentResponseDto().);
+//        }
+
+//        this.commentList = CommentResponseDto.from();
     }
 }
 

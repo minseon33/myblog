@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Post extends Timestamped{
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postNum;
 
     @Column(nullable = false)
@@ -26,10 +26,8 @@ public class Post extends Timestamped{
     @Column(nullable = false)
     private String userName;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     List<Comment> commentList = new ArrayList<>();
-
-
 
 
 
@@ -41,7 +39,13 @@ public class Post extends Timestamped{
 
     public void addComment(Comment comment){
         this.commentList.add(comment);
-        //여기서 루프돌려서 다 들어갈수 있게 해야된다.
+        //주먹질이다.. 한개의 주먹으로 여러번 때리는것이다...~~ 반복은 컴퓨터가 알아서 할것이다.
+        //댓글을 넣는게 한번에 리스트로 다 넣는게 아니다.. 하나만 만들어서 하나만 넣는다..
+
+//        리스트를 어떻게 다 붙이지..?
+//        this.commentList.add(comment);
+//        여기서 루프돌려서 다 들어갈수 있게 해야되나...?
+
     }
 
 
@@ -49,7 +53,6 @@ public class Post extends Timestamped{
         this.postTitle = requestDto.getPostTitle();
         this.postContents = requestDto.getPostContents();
     }
-
 
 
 

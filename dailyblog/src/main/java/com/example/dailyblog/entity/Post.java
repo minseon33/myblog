@@ -26,7 +26,8 @@ public class Post extends Timestamped{
     @Column(nullable = false)
     private String userName;
 
-    @OneToMany(fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     List<Comment> commentList = new ArrayList<>();
 
 
@@ -49,7 +50,7 @@ public class Post extends Timestamped{
     }
 
 
-    public void update(PostRequestDto requestDto) {
+    public void postUpdate(PostRequestDto requestDto) {
         this.postTitle = requestDto.getPostTitle();
         this.postContents = requestDto.getPostContents();
     }

@@ -6,6 +6,7 @@ import com.example.dailyblog.repository.CommentsRepository;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -17,7 +18,7 @@ public class PostResponseDto {
 
     private LocalDateTime createdAt;
 
-    private List<CommentResponseDto> commentList;
+    private List<CommentResponseDto> commentList = new ArrayList<>();
 
     public PostResponseDto(Post post) {
         this.postNum = post.getPostNum();
@@ -25,9 +26,10 @@ public class PostResponseDto {
         this.postContents = post.getPostContents();
         this.userName = post.getUserName();
         this.createdAt = post.getCreatedAt();
-//        for(Comment comment : post.getCommentList()){
-//            commentList.add(new CommentResponseDto().);
-//        }
+//        this.commentList = new ArrayList<>();
+        for(Comment comment : post.getCommentList()){;
+            commentList.add(new CommentResponseDto(comment));
+        }
 
 //        this.commentList = CommentResponseDto.from();
     }

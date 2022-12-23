@@ -48,6 +48,44 @@ public class CommentController {
         return commentService.createComment(commentRequestDto,userName,postNum);
     }
 
+    @PutMapping("/post/{postNum}/comment/{commentNum}")
+    public CommentResponseDto updateComment(@RequestBody CommentRequestDto commentRequestDto,@PathVariable Long postNum,@PathVariable Long commentNum ,HttpServletRequest httpServletRequest){
+        // 토큰 값 꺼내기
+        String token = jwtUtil.resolveToken(httpServletRequest);
+
+        //토큰 검증
+        tokenAuthenticationService.tokenVerification(token);
+
+        //토큰에서 유저네임(=작성자) 뽑아서 userName에 저장하기
+        String userName = tokenAuthenticationService.takeUserName(token);
+
+        return commentService.userUpdateComment(commentRequestDto,userName,postNum,commentNum);
+    }
+
+
+    @DeleteMapping("/post/{postNum}/comment/{commentNum}")
+    public void CommentDelet(@PathVariable Long postNum ,@PathVariable Long commentNum, HttpServletRequest httpServletRequest){
+        // 토큰 값 꺼내기
+        String token = jwtUtil.resolveToken(httpServletRequest);
+
+        //토큰 검증
+        tokenAuthenticationService.tokenVerification(token);
+
+        //토큰에서 유저네임(=작성자) 뽑아서 userName에 저장하기
+
+        String userName = tokenAuthenticationService.takeUserName(token);
+
+        String role = tokenAuthenticationService.takeRole(token);
+
+        if(role.equals("ADMIN")){
+            commentService.adminCommentDelet(postNum,commentNum);
+        }else {
+            commentService.userCommentDelet(postNum,commentNum,userName);
+        }
+
+
+    }
+
 
 
 

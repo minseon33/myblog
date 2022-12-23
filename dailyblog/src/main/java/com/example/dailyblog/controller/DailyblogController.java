@@ -55,7 +55,7 @@ public class DailyblogController {
 
     //전체 게시물 보기
     @GetMapping("/posts/dailypost")
-    public List<Post> getPosts() {
+    public List<PostResponseDto> getPosts() {
         return dailyblogService.getPosts();
     }
 

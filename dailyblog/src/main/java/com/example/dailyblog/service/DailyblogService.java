@@ -33,11 +33,11 @@ public class DailyblogService {
 
 
     @Transactional
-    public Post creatPost(PostRequestDto postRequestDto, String userName) {
+    public PostResponseDto creatPost(PostRequestDto postRequestDto, String userName) {
         Post post = new Post(postRequestDto, userName);
         //게시물 작성하기
         postsRepository.save(post);
-        return post;
+        return new PostResponseDto(post);
     }
 
     @Transactional(readOnly = true)

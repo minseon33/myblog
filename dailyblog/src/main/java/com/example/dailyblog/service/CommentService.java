@@ -42,13 +42,13 @@ public class CommentService {
 
 
 
-
+    @Transactional
     public CommentResponseDto userUpdateComment(CommentRequestDto commentRequestDto,String userName, Long postNum,Long commentNum){
         // 댓글이 달려있는 포스트를 찾아줌.
         Post post = postsRepository.findById(postNum).orElseThrow(PostNotExistException::new);
         //post안에 있는 댓글들 중에 내가 쓴 댓글이 있는지 찾아야 함.
 
-        //코멘트 아이디 확인
+        //코멘트 위치 확인
         Comment comment = commentsRepository.findById(commentNum).orElseThrow(CommentNotExistException::new);
         String writerName = userName;
 
@@ -61,7 +61,7 @@ public class CommentService {
         return new CommentResponseDto(comment);
 
     }
-
+    @Transactional
     public void adminCommentDelet(Long postNum,Long commentNum){
         // 댓글이 달려있는 포스트를 찾아줌.
         Post post = postsRepository.findById(postNum).orElseThrow(PostNotExistException::new);
@@ -70,7 +70,7 @@ public class CommentService {
 
     }
 
-
+    @Transactional
     public void userCommentDelet(Long postNum,Long commentNum,String userName){
         //댓글이 달려있는 포스트를 찾아줌.
         Post post = postsRepository.findById(postNum).orElseThrow(PostNotExistException::new);

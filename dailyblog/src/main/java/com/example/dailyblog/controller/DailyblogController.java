@@ -31,7 +31,7 @@ public class DailyblogController {
 
     //게시물 등록
     @PostMapping("/posts/dailypost")
-    public Post creatPost(@RequestBody PostRequestDto postRequestDto, HttpServletRequest httpServletRequest) {
+    public PostResponseDto creatPost(@RequestBody PostRequestDto postRequestDto, HttpServletRequest httpServletRequest) {
         //httpServletRequest 에서 토큰값 꺼내기
         String token = jwtUtil.resolveToken(httpServletRequest);
 

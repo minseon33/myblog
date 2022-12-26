@@ -20,6 +20,8 @@ public class CommentService {
     private final JwtUtil jwtUtil;
     private final PostsRepository postsRepository;
 
+
+    //코멘트 작성
     @Transactional
     public CommentResponseDto createComment(CommentRequestDto commentRequestDto, String userName, Long postNum) {
         //Dto는 한칸만 넘어가야 한다.!!! 아하.>!
@@ -42,21 +44,26 @@ public class CommentService {
 
 
 
+    //코멘트 업데이트
     @Transactional
     public CommentResponseDto userUpdateComment(CommentRequestDto commentRequestDto,String userName, Long postNum,Long commentNum){
         // 댓글이 달려있는 포스트를 찾아줌.
         Post post = postsRepository.findById(postNum).orElseThrow(PostNotExistException::new);
-        //post안에 있는 댓글들 중에 내가 쓴 댓글이 있는지 찾아야 함.
+        // post안에 있는 댓글들 중에 내가 쓴 댓글이 있는지 찾아야 함.
 
         //코멘트 위치 확인
         Comment comment = commentsRepository.findById(commentNum).orElseThrow(CommentNotExistException::new);
-        String writerName = userName;
 
+        String writerName = userName.toString();
+        System.out.println("userName : " + writerName );
 
+        //댓글작성자 아이디 비교 (왜 안먹지)
         comment.checkedCommentWriterName(writerName);
+
 
         comment.commentUpdate(commentRequestDto);
         commentsRepository.save(comment);
+        postsRepository.save(post);
 
         return new CommentResponseDto(comment);
 
@@ -79,11 +86,12 @@ public class CommentService {
         Comment comment = commentsRepository.findById(commentNum).orElseThrow(CommentNotExistException::new);
 
         //코멘트가 userName 과 같은지 확인해준 뒤 삭제. 헷갈리니까 이름 writerName 으로 바꿔주고..
-        String writerName = userName;
+        String writerName = userName.toString();
 
         //코멘트의 writerName이 삭제하려는 댓글의 writerName과 같은지 비교해주고
         comment.checkedCommentWriterName(writerName);
         commentsRepository.delete(comment);
+
 
 
     }

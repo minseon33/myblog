@@ -11,11 +11,13 @@ import com.example.dailyblog.repository.UserRepository;
 import com.example.dailyblog.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,7 +25,6 @@ import javax.validation.Valid;
 public class UserController {
 
     private final UserService userService;
-    private final UserRepository userRepository;
     private static final String ADMIN_PASSWORD = "AAABnvxRVklrnYxKZ0aHgTBcXukeZygoC";
 
 
@@ -41,7 +42,8 @@ public class UserController {
 
     //회원가입 등록하기
     @PostMapping("/signup")
-    public SignupResponseDto signup(@RequestBody @Valid SignupRequestDto signupRequestDto ) {
+    public SignupResponseDto signup(@RequestBody @Valid SignupRequestDto signupRequestDto) {
+
         //사용자 role 확인
         UserRoleEnum role = UserRoleEnum.USER;
         if (signupRequestDto.isAdmin()) {
@@ -59,9 +61,7 @@ public class UserController {
     //회원 로그인하기
     @PostMapping("/login")
     public LoginResponseDto login(@RequestBody LoginRequestDto loginRequestDto , HttpServletResponse response) {
-        User user = userRepository.findByUsername(loginRequestDto.getUserName()).orElseThrow(
-                ()-> new IllegalArgumentException("등록된 사용자가 없습니다.")
-        );
+
         String generatedToken = userService.login(loginRequestDto);
         response.addHeader(JwtUtil.AUTHORIZATION_HEADER,generatedToken);
 

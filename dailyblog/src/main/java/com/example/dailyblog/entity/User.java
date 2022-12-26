@@ -26,15 +26,12 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private String email;
-    @Column(nullable = false)
     private UserRoleEnum role;
 
 
     public User(SignupRequestDto signupRequestDto , UserRoleEnum role) {
         this.username = signupRequestDto.getUserName();
         this.password = signupRequestDto.getPassword();
-        this.email = signupRequestDto.getEmail();
         this.role = role;
     }
 

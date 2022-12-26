@@ -36,7 +36,7 @@ public class Comment extends Timestamped{
 
     public void checkedCommentWriterName(String writerName){
         if (!this.getCommentWriterName().equals(writerName)){
-            new IllegalArgumentException("작성자 아이디가 다릅니다.");
+            throw new IllegalArgumentException("작성자 아이디가 다릅니다.");
         }
     }
 

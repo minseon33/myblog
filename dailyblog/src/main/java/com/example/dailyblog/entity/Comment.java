@@ -27,9 +27,9 @@ public class Comment extends Timestamped{
     @JoinColumn(name = "post_postNum", nullable = false)
     private Post post;
 
-    public Comment(String userName,CommentRequestDto commentRequestDto,Post post){
+    public Comment(String userName,String commentContents,Post post){
         this.commentWriterName = userName;
-        this.commentContents = commentRequestDto.getContents();
+        this.commentContents = commentContents;
         this.post = post;
         //정적 팩토리 메서드..?
     }

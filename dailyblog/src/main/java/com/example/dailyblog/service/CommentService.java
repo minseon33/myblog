@@ -30,8 +30,9 @@ public class CommentService {
         Post post = postsRepository.findById(postNum).orElseThrow(PostNotExistException::new);
 
         // 게시판 찾기 완료
+        String content = commentRequestDto.getContents();
 
-        Comment comment = new Comment(userName, commentRequestDto, post);
+        Comment comment = new Comment(userName,content, post);
         post.addComment(comment);
 
 //        //게시물 작성하기
@@ -91,7 +92,6 @@ public class CommentService {
         //코멘트의 writerName이 삭제하려는 댓글의 writerName과 같은지 비교해주고
         comment.checkedCommentWriterName(writerName);
         commentsRepository.delete(comment);
-
 
 
     }

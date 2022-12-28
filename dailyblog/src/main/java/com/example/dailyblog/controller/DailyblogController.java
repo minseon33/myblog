@@ -39,16 +39,15 @@ public class DailyblogController {
         tokenAuthenticationService.tokenVerification(token);
 
         //토큰에서 role값 꺼내기
-        String role = tokenAuthenticationService.takeRole(token);
+        String role = tokenAuthenticationService.getauthenticationUser(token).getRole();
 
         //토큰에서 userName 값 꺼내기
-        String userName = tokenAuthenticationService.takeUserName(token);
+        String userName = tokenAuthenticationService.getauthenticationUser(token).getUserName();
 
         //user 확인하기
         User user = userRepository.findByUsername(userName).orElseThrow(
                 () -> new IllegalArgumentException("등록된 사용자가 없습니다.")
         );
-
         //권한이랑 같이 서비스로 값 넘겨줌
         return dailyblogService.creatPost(postRequestDto, userName);
     }
@@ -71,10 +70,10 @@ public class DailyblogController {
         tokenAuthenticationService.tokenVerification(token);
 
         //토큰에서 role값 꺼내기
-        String role = tokenAuthenticationService.takeRole(token);
+        String role = tokenAuthenticationService.getauthenticationUser(token).getRole();
 
         //토큰에서 userName 값 꺼내기
-        String userName = tokenAuthenticationService.takeUserName(token);
+        String userName = tokenAuthenticationService.getauthenticationUser(token).getUserName();
 
         //user 확인하기
         User user = userRepository.findByUsername(userName).orElseThrow(
@@ -100,10 +99,10 @@ public class DailyblogController {
         tokenAuthenticationService.tokenVerification(token);
 
         //토큰에서 role값 꺼내기
-        String role = tokenAuthenticationService.takeRole(token);
+        String role = tokenAuthenticationService.getauthenticationUser(token).getRole();
 
         //토큰에서 userName 값 꺼내기
-        String userName = tokenAuthenticationService.takeUserName(token);
+        String userName = tokenAuthenticationService.getauthenticationUser(token).getUserName();
 
         //user 확인하기
         User user = userRepository.findByUsername(userName).orElseThrow(

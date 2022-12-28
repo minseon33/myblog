@@ -8,6 +8,7 @@ import com.example.dailyblog.entity.Post;
 import com.example.dailyblog.jwt.JwtUtil;
 import com.example.dailyblog.repository.PostsRepository;
 import com.example.dailyblog.repository.UserRepository;
+import com.example.dailyblog.service.AuthenticationService;
 import com.example.dailyblog.service.CommentService;
 import com.example.dailyblog.service.TokenAuthenticationService;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 public class CommentController {
     private final CommentService commentService;
     private final JwtUtil jwtUtil;
-    private final TokenAuthenticationService tokenAuthenticationService;
-    private final PostsRepository postsRepository;
+
+    private final AuthenticationService authenticationService;
 
 
     //댓글창 보여주기
@@ -39,10 +40,10 @@ public class CommentController {
         String token = jwtUtil.resolveToken(httpServletRequest);
 
         //토큰 검증
-        tokenAuthenticationService.tokenVerification(token);
+        authenticationService.tokenVerification(token);
 
         //토큰에서 유저네임(=작성자) 뽑아서 넘겨줌
-        String userName = tokenAuthenticationService.takeUserName(token);
+        String userName = authenticationService.getauthenticationUser(token).getUserName();
 
         //서비스로 Dto 넘겨줌
         return commentService.createComment(commentRequestDto,userName,postNum);
@@ -54,10 +55,10 @@ public class CommentController {
         String token = jwtUtil.resolveToken(httpServletRequest);
 
         //토큰 검증
-        tokenAuthenticationService.tokenVerification(token);
+        authenticationService.tokenVerification(token);
 
-        //토큰에서 유저네임(=작성자) 뽑아서 userName에 저장하기
-        String userName = tokenAuthenticationService.takeUserName(token);
+        //토큰에서 유저네임(=작성자) 뽑아서 넘겨줌
+        String userName = authenticationService.getauthenticationUser(token).getUserName();
 
         return commentService.userUpdateComment(commentRequestDto,userName,postNum,commentNum);
     }
@@ -69,13 +70,12 @@ public class CommentController {
         String token = jwtUtil.resolveToken(httpServletRequest);
 
         //토큰 검증
-        tokenAuthenticationService.tokenVerification(token);
+        authenticationService.tokenVerification(token);
 
-        //토큰에서 유저네임(=작성자) 뽑아서 userName에 저장하기
+        //토큰에서 유저네임(=작성자) 뽑아서 넘겨줌
+        String userName = authenticationService.getauthenticationUser(token).getUserName();
 
-        String userName = tokenAuthenticationService.takeUserName(token);
-
-        String role = tokenAuthenticationService.takeRole(token);
+        String role = authenticationService.getauthenticationUser(token).getRole();
 
         if(role.equals("ADMIN")){
             commentService.adminCommentDelet(postNum,commentNum);

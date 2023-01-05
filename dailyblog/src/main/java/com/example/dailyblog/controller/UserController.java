@@ -4,14 +4,10 @@ import com.example.dailyblog.dto.LoginRequestDto;
 import com.example.dailyblog.dto.LoginResponseDto;
 import com.example.dailyblog.dto.SignupRequestDto;
 import com.example.dailyblog.dto.SignupResponseDto;
-import com.example.dailyblog.entity.User;
 import com.example.dailyblog.entity.UserRoleEnum;
 import com.example.dailyblog.jwt.JwtUtil;
-import com.example.dailyblog.repository.UserRepository;
 import com.example.dailyblog.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -35,7 +31,7 @@ public class UserController {
     }
 
     //로그인 페이지 보여주기
-    @GetMapping("/login")
+    @GetMapping("/login-page")
     public ModelAndView loginPage() {
         return new ModelAndView("login");
     }

@@ -35,8 +35,8 @@ public class User {
         this.role = role;
     }
 
-    public void checkPassword(LoginRequestDto loginRequestDto){
-        if(!this.password.equals(loginRequestDto.getPassword())) throw new IllegalArgumentException("비밀번호가 불일치합니다.");
+    public void checkPassword(String userpassword){
+        if(!this.password.equals(userpassword)) throw new IllegalArgumentException("비밀번호가 불일치합니다.");
     }
 
 

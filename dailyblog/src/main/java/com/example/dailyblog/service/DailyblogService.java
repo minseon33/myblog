@@ -25,9 +25,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DailyblogService {
     private final PostsRepository postsRepository;
-    private final JwtUtil jwtUtil;
-
-    private final CommentsRepository commentsRepository;
 
 //    private final User user;
 
@@ -52,6 +49,8 @@ public class DailyblogService {
         for (Post post : postList) {
             postResponseDtoList.add(new PostResponseDto(post));
         }
+        //for문 돌려서 포스트 하나씩 있는 객체들을 객체들 하나하나를 PostResponseDto 로 바꿔준다.
+
 
         // 순환참조가 일어난 이유.. post값을 그대로 내려줘서 그렇다... == 엔티티를 그대로 내려줘서 그렇다...일단 암기.. 엔티티는 그대로 내려주면 안된다..
         //제이슨 이그노어는 순환참조를 그냥 억지로 끊어내고 엔티티를 그래도 내려주는것이다...! 아하..! 빌런짓이다~~ 이해했습니다.
@@ -60,7 +59,7 @@ public class DailyblogService {
 
         return postResponseDtoList;
 
-        //for문 돌려서 포스트 하나씩 있는 객체들을 객체들 하나하나를 PostResponseDto 로 바꿔준다.
+
 
 
     }

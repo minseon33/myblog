@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class CommentService {
     private final CommentsRepository commentsRepository;
-    private final JwtUtil jwtUtil;
     private final PostsRepository postsRepository;
 
 
@@ -25,6 +24,7 @@ public class CommentService {
     @Transactional
     public CommentResponseDto createComment(CommentRequestDto commentRequestDto, String userName, Long postNum) {
         //Dto는 한칸만 넘어가야 한다.!!! 아하.>!
+        // 데이터는 넘어가면 갈수록 작아진다.
 
         //댓글을 작성할 공간(게시판)을 찾아가는 것이다.
         Post post = postsRepository.findById(postNum).orElseThrow(PostNotExistException::new);

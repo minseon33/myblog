@@ -2,6 +2,7 @@ package com.example.dailyblog.entity;
 
 import com.example.dailyblog.dto.PostRequestDto;
 
+import com.example.dailyblog.exception.UserNameNotException;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -54,6 +55,13 @@ public class Post extends Timestamped{
         this.postTitle = requestDto.getPostTitle();
         this.postContents = requestDto.getPostContents();
     }
+
+
+//    public void ckeckedId(String userName){
+//        if (!this.UserName().equals(userName)) {
+//            throw new UserNameNotException();
+//        }
+//    }
 
 
 

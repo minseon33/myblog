@@ -8,10 +8,18 @@ import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Service
 @RequiredArgsConstructor
 public class TokenAuthenticationService implements AuthenticationService{
     private final JwtUtil jwtUtil;
+
+    @Override
+    public String resolveToken(HttpServletRequest request){
+        String token = jwtUtil.resolveToken(request);
+        return token;
+    }
 
     @Override
     public void tokenVerification(String token ){
@@ -39,6 +47,7 @@ public class TokenAuthenticationService implements AuthenticationService{
 
 
     }
+
 
 
 }

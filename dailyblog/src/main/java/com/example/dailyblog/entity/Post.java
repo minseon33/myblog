@@ -28,6 +28,15 @@ public class Post extends Timestamped{
     private String userName;
 
 
+
+    @Column
+    private Long likeCount;
+
+    public void modifyLikeCount(Long likeCount) {
+        this.likeCount = likeCount;
+    }
+
+
     @OneToMany(mappedBy = "post", fetch = FetchType.LAZY)
     List<Comment> commentList = new ArrayList<>();
 
@@ -39,6 +48,8 @@ public class Post extends Timestamped{
         this.userName = userName;
     }
 
+
+    //댓글 붙이기.
     public void addComment(Comment comment){
         this.commentList.add(comment);
         //주먹질이다.. 한개의 주먹으로 여러번 때리는것이다...~~ 반복은 컴퓨터가 알아서 할것이다.
@@ -58,7 +69,7 @@ public class Post extends Timestamped{
 
 
 //    public void ckeckedId(String userName){
-//        if (!this.UserName().equals(userName)) {
+//        if (!this.userName().equals(userName)) {
 //            throw new UserNameNotException();
 //        }
 //    }

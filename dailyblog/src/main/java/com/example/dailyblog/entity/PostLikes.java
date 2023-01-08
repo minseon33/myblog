@@ -1,24 +1,30 @@
 package com.example.dailyblog.entity;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
 import javax.persistence.*;
 
-@RequiredArgsConstructor
-public class PostLikes extends Timestamped{
+@Getter
+@Entity
+@NoArgsConstructor
+public class PostLikes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private final Long likesId;
+    private Long likesId;
+
 
     @Column(nullable = false)
-    private final Long likesCount;
+    private String userName;
 
     @Column(nullable = false)
-    private final String userName;
+    private Long postNum;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Likes_postNum", nullable = false)
-    private final Long postNum;
+    public PostLikes(Long postNum,String userName){
+        this.postNum = postNum;
+        this.userName = userName;
+    }
 
 }

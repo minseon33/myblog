@@ -2,7 +2,6 @@ package com.example.dailyblog.dto;
 
 import com.example.dailyblog.entity.Comment;
 import com.example.dailyblog.entity.Post;
-import com.example.dailyblog.repository.CommentsRepository;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

@@ -1,23 +1,15 @@
 package com.example.dailyblog.service;
 
-import com.example.dailyblog.dto.CommentResponseDto;
 import com.example.dailyblog.dto.PostRequestDto;
 import com.example.dailyblog.dto.PostResponseDto;
-import com.example.dailyblog.entity.Comment;
 import com.example.dailyblog.entity.Post;
 import com.example.dailyblog.exception.PostNotExistException;
-import com.example.dailyblog.exception.TokenNotExistException;
 import com.example.dailyblog.exception.UserNameNotException;
-import com.example.dailyblog.jwt.JwtUtil;
-import com.example.dailyblog.repository.CommentsRepository;
 import com.example.dailyblog.repository.PostsRepository;
-import io.jsonwebtoken.Claims;
-import com.example.dailyblog.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-public class DailyblogController {
+public class PostController {
     private final DailyblogService dailyblogService;
 
     //홈화면
@@ -75,7 +75,5 @@ public class DailyblogController {
     public PostResponseDto showPosts(@PathVariable Long id) {
         return dailyblogService.showOnePost(id);
     }
-
-
 
 }

@@ -4,8 +4,7 @@ import com.example.dailyblog.dto.CommentRequestDto;
 import com.example.dailyblog.dto.CommentResponseDto;
 import com.example.dailyblog.entity.Comment;
 import com.example.dailyblog.entity.Post;
-import com.example.dailyblog.jwt.JwtUtil;
-import com.example.dailyblog.repository.CommentsRepository;
+import com.example.dailyblog.repository.CommentRepository;
 import com.example.dailyblog.repository.PostsRepository;
 import com.example.dailyblog.exception.PostNotExistException;
 import com.example.dailyblog.exception.CommentNotExistException;
@@ -16,7 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class CommentService {
-    private final CommentsRepository commentsRepository;
+    private final CommentRepository commentsRepository;
     private final PostsRepository postsRepository;
 
 

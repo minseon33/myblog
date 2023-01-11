@@ -3,6 +3,7 @@ package com.example.dailyblog.service;
 import com.example.dailyblog.dto.PostRequestDto;
 import com.example.dailyblog.dto.PostResponseDto;
 import com.example.dailyblog.entity.Post;
+import com.example.dailyblog.exception.IdNotExistException;
 import com.example.dailyblog.exception.PostNotExistException;
 import com.example.dailyblog.exception.UserNameNotException;
 import com.example.dailyblog.repository.PostsRepository;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.sound.midi.InvalidMidiDataException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,9 +59,7 @@ public class DailyblogService {
     //    하나의 선택글만 보기
     @Transactional(readOnly = true)
     public PostResponseDto showOnePost(Long id) {
-        Post post = postsRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("아이디가 존재하지 않습니다.")
-        );
+        Post post = postsRepository.findById(id).orElseThrow(IdNotExistException::new);
         return new PostResponseDto(post);
     }
 
